@@ -1,0 +1,97 @@
+<!-- by Rauf Kerimov -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Speed & W3C Сhecker 3.0</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/index.css">
+</head>
+<body>
+<header>
+    <div class="search-url">
+        <input id="urls" type="text" placeholder="Paste here sitemap URL separated by commas" autocomplete="off">
+    </div>
+    <div class="controls">
+        <div class="control start"><span>Start</span></div>
+        <div class="control rescan"><span>Rescan</span></div>
+        <div class="control export"><span>Export</span></div>
+        <div class="control settings"><span>Settings</span></div>
+        <div class="control exit"><span>Exit</span></div>
+    </div>
+</header>
+<main>
+    <div class="top-table-shadow"></div>
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 2%;">#</th>
+            <th style="width: 48%;">URL</th>
+            <th style="width: 10%;">Valid HTML</th>
+            <th style="width: 5%;">Page Speed</th>
+            <th style="width: 5%;">FCP</th>
+            <th style="width: 5%;">SI</th>
+            <th style="width: 5%;">LCP</th>
+            <th style="width: 5%;">TiT</th>
+            <th style="width: 5%;">TBT</th>
+            <th style="width: 5%;">CLS</th>
+            <th style="width: 5%;">TTFB</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="general-report-minimized hide">General report</div>
+    <div class="general-report-window">
+        <div class="general-report-title">General Report<span class="minimize">-</span></div>
+        <div class="points">
+            <div class="point">
+                <div class="point-title">Pages with W3C errors</div>
+                <div class="point-score">0</div>
+            </div>
+            <div class="point">
+                <div class="point-title">Pages that do not pass Web Vitals</div>
+                <div class="point-score">0</div>
+            </div>
+            <div class="point">
+                <div class="point-title">Pages with poor Performance Score</div>
+                <div class="point-score">0</div>
+            </div>
+        </div>
+    </div>
+</main>
+<aside class="settings">
+    <h1>Settings</h1>
+    <div class="switcher">
+        <span>Lite mode</span>
+        <div class="toggle api-enable">
+            <input id="lite-mode" type="checkbox">
+            <label class="toggle-item" for="lite-mode">
+                <div class="check"></div>
+            </label>
+        </div>
+    </div>
+    <div class="switcher">
+        <span>Google API</span>
+        <div class="toggle api-enable">
+            <input id="api-enable" type="checkbox" checked>
+            <label class="toggle-item" for="api-enable">
+                <div class="check"></div>
+            </label>
+        </div>
+    </div>
+    <input type="text" class="settings-input" placeholder="Paste here Google API key">
+</aside>
+<footer>
+    <div class="status">Status: <span>waiting for start</span></div>
+    <div class="bar">
+        <div class="bar-green" style="width: 33.33%;"></div>
+        <div class="bar-orange" style="width: 33.33%;"></div>
+        <div class="bar-red" style="width: 33.33%;"></div>
+    </div>
+    <div class="version">Version: v3.0 (by Rauf Kerimov)</div>
+</footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="../assets/js/front.js"></script>
+</html>

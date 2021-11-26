@@ -1,0 +1,38 @@
+	{
+  "name": "speedw3c",
+  "productName": "Speed&W3C Checker",
+  "version": "3.0.0",
+  "description": "Speed and W3C Checker Tool",
+  "main": "src/index.js",
+  "scripts": {
+    "update": "ncu -u && npm install",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": "Rauf Kerimov <raufk@wizardsdev.com>",
+  "license": "MIT",
+  "config": {},
+  "dependencies": {
+    "axios": "^0.24.0",
+    "chrome-launcher": "^0.15.0",
+    "crawler": "^1.3.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "hostile": "^1.3.3",
+    "lighthouse": "^9.1.0",
+    "npm-check-updates": "^12.0.2",
+    "tree-kill": "^1.2.2",
+    "worker-farm": "^1.7.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "@electron-forge/maker-deb": "^6.0.0-beta.61",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
+    "@electron-forge/maker-zip": "^6.0.0-beta.61",
+    "electron": "16.0.2"
+  }
+}
