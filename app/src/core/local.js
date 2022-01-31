@@ -28,3 +28,6 @@ module.exports = function (url, callback) {
         }
     })();
 }
+
+/*lighthouse https://deveducation.com --chrome-flags="--headless --disable-gpu --no-sandbox" --only-categories=performance --only-audits=metrics/first-contentful-paint,
+metrics/speed-index,metrics/largest-contentful-paint,metrics/interactive,metrics/total-blocking-time,metrics/cumulativ-layout-shift*/

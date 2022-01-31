@@ -2,7 +2,7 @@ const Crawler = require('crawler');
 const axios = require('axios');
 const workerFarm = require('worker-farm');
 const {cpus} = require('os');
-const workersLocal = workerFarm({maxConcurrentWorkers: 1, maxConcurrentCallsPerWorker: 1}, require.resolve('./local'));
+const workersLocal = workerFarm({maxConcurrentWorkers: 5, maxConcurrentCallsPerWorker: 1}, require.resolve('./local'));
 const workersRemote = workerFarm({
     maxConcurrentWorkers: 2,
     maxConcurrentCallsPerWorker: 1
@@ -35,7 +35,7 @@ let c = new Crawler({
                     });
                 }
             } else if (res.options.uri.includes(origin.host) && !res.options.uri.includes('amp') && res.headers['content-type'].includes('html')) { // only for inner links and only html pages
-                $('table tbody').append('<tr data-id="' + current + '"><td>' + current + '</td><td><span class="link">' + res.options.uri + '</span><span class="action-controls"></span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>');
+                $('table tbody').append('<tr data-id="' + current + '"><td>' + current + '</td><td><span class="link">' + res.options.uri + '</span><span class="action-controls"></span></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>');
 
                 ++total;
 
@@ -98,7 +98,7 @@ window.refresh = function (url, position) {
     lighthouseCheck(url, position);
 }
 
-function fillRow(position, score, audits) {
+function fillRow(position, score, audits, environment) {
     let color = score >= 90 ? '#0cce6b' : score >= 50 ? '#ffa400' : '#ff4e42';
 
     $('table tbody tr[data-id="' + position + '"] td:eq(3)').css('background-color', color).html(score);
@@ -109,6 +109,7 @@ function fillRow(position, score, audits) {
     $('table tbody tr[data-id="' + position + '"] td:eq(8)').css('background-color', getLighthouseColor('tbt', audits["total-blocking-time"].numericValue)).html(audits["total-blocking-time"].displayValue);
     $('table tbody tr[data-id="' + position + '"] td:eq(9)').css('background-color', getLighthouseColor('cls', audits["cumulative-layout-shift"].numericValue)).html(audits["cumulative-layout-shift"].displayValue);
     $('table tbody tr[data-id="' + position + '"] td:eq(10)').css('background-color', getLighthouseColor('ttfb', audits["server-response-time"].numericValue)).html(parseInt(audits["server-response-time"].numericValue) + " ms");
+    $('table tbody tr[data-id="' + position + '"] td:eq(11)').html(environment.benchmarkIndex);
 
     queue.splice(queue.indexOf(position), 1);
     updateStats(position, audits);
@@ -123,11 +124,11 @@ function lighthouseCheck(url, position) {
 
     if (origin.host.includes('devshell.site') || disabledAPI) {
         workersLocal(url, function (result) {
-            fillRow(position, result.lhr.categories.performance.score * 100, result.lhr.audits);
+            fillRow(position, result.lhr.categories.performance.score * 100, result.lhr.audits, result.lhr.environment);
         });
     } else {
         workersRemote(url, getApikey(), function (data) {
-            fillRow(position, data.lighthouseResult.categories.performance.score * 100, data.lighthouseResult.audits);
+            fillRow(position, data.lighthouseResult.categories.performance.score * 100, data.lighthouseResult.audits, data.lighthouseResult.environment);
         });
     }
 
@@ -170,7 +171,7 @@ function getLighthouseColor(param, value) {
         tit: {green: 3830, orange: 7340},
         tbt: {green: 200, orange: 600},
         cls: {green: 0.1, orange: 0.25},
-        ttfb: {green: 200, orange: 400},
+        ttfb: {green: 200, orange: 400}
     };
 
     return limits[param] !== undefined ? value < limits[param].green ? '#0cce6b' : (value < limits[param].orange ? '#ffa400' : '#ff4e42') : 'initial';
@@ -195,7 +196,7 @@ function tick() {
 }
 
 function getApikey() {
-    let keys = ['AIzaSyAgBrOaPw6MfacCHhtrxi1Vqk5aL1omtls', 'AIzaSyCDMs9Go-ljypDLABs9LwiTEJIRPjtN6mM', 'AIzaSyCkExvwDR51GQwGoWaTDl1Z97QKwtADFnk', 'AIzaSyBaNM7GrUbPhqpnTNFN_8CI4hNR36NYIns'];
+    let keys = ['AIzaSyDIV91GcXLBRHji1ub5Yvv4GkpztvukRg0', 'AIzaSyAgBrOaPw6MfacCHhtrxi1Vqk5aL1omtls', 'AIzaSyCDMs9Go-ljypDLABs9LwiTEJIRPjtN6mM', 'AIzaSyCkExvwDR51GQwGoWaTDl1Z97QKwtADFnk', 'AIzaSyBaNM7GrUbPhqpnTNFN_8CI4hNR36NYIns'];
 
     return keys[Math.floor(Math.random() * keys.length)]; // temp decision
 }
